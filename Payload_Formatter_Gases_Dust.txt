@@ -1,0 +1,29 @@
+function decodeUplink(input) {
+  var data = {};
+
+  var gps = {};
+  var gas = {};
+  var dust = {};
+
+  gps.sat_count = input.bytes[0];
+  gps.hdop      = input.bytes[1]/100;
+  gps.latitude  = (input.bytes[4] | (input.bytes[5] << 8) | (input.bytes[6]  << 16) | (input.bytes[7]  << 24))/1000000;
+  gps.longitude = (input.bytes[8] | (input.bytes[9] << 8) | (input.bytes[10] << 16) | (input.bytes[11] << 24))/1000000;
+
+  gas.NO2       = input.bytes[12] | (input.bytes[13] << 8);
+  gas.C2H5OH    = input.bytes[14] | (input.bytes[15] << 8);
+  gas.VOC       = input.bytes[16] | (input.bytes[17] << 8);
+  gas.CO        = input.bytes[18] | (input.bytes[19] << 8);
+
+  dust.PM01     = input.bytes[20] | (input.bytes[21] << 8);
+  dust.PM02     = input.bytes[22] | (input.bytes[23] << 8);
+  dust.PM10     = input.bytes[24] | (input.bytes[25] << 8);
+
+  data = {gps, gas, dust};
+
+  return {
+    data: data,
+    warnings: [],
+    errors: []
+  };
+}

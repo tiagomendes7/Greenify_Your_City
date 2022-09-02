@@ -1,0 +1,17 @@
+function decodeUplink(input) {
+    var data = {};
+    
+    var temp = {};
+    var hum = {};
+    
+    temp = (input.bytes[0] + (input.bytes[1] << 8)) / 100;
+    hum = (input.bytes[2] + (input.bytes[3] << 8))/ 100;
+    
+    data = {temp, hum};
+    
+    return {
+      data: data,
+      error: [],
+      warnings: []
+    };
+}
